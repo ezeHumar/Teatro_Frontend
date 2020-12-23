@@ -1,0 +1,20 @@
+<app-modal>
+  <label><b>Nombre de la obra</b></label>
+  <h6>{{ a.obra.nombre }}</h6>
+
+  <label><b>Nombre del espacio</b></label>
+  <h6>{{ a.espacio.nombre }}</h6>
+
+  <label><b>Fecha</b></label>
+  <h6>{{ a.fecha }}</h6>
+
+  <label><b>Hora</b></label>
+  <h6>{{ a.hora }}</h6>
+
+  <label><b>Tags</b></label>
+  <ul>
+    <li *ngFor="let tag of a.tags">
+      {{ tag.tag }}
+    </li>
+  </ul>
+</app-modal>

@@ -1,0 +1,77 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Obras</h3>
+</div>
+
+<form (ngSubmit)="busqueda()">
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+    <input type="text" id="name" [(ngModel)]="nombreFiltro" name="name" placeholder="Nombre">&nbsp;
+
+    <ng-select name="artistasSeleccionados" [items]="artistas" bindLabel="nombre" placeholder="Seleccionar artistas"
+      appendTo="body" multiple="true" [(ngModel)]="artistasSeleccionados">
+
+      <!-- Esto de abajo es para uqe se muestre el nombre y apellido de los artistas en la pagina
+            https://stackoverflow.com/questions/51420271/angular-5-ng-select-how-to-add-two-values-to-bindlabel -->
+
+      <ng-template ng-label-tmp let-item="item">
+        <span>{{ item.nombre + ' ' + item.apellido }}</span>
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+        <span>{{ item.nombre + ' ' + item.apellido }}</span>
+      </ng-template>
+
+    </ng-select>&nbsp;
+
+
+    <ng-select name="tagsSeleccionados" [items]="tags" bindLabel="tag" placeholder="Seleccionar tags" appendTo="body"
+      multiple="true" [(ngModel)]="tagsSeleccionados">
+    </ng-select>&nbsp;
+
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+  </div>
+</form>
+
+<br>
+<div *ngIf="obras.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let obra of obras; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ obra.nombre }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-primary" role="button" (click)="open(obra)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/obras/editar', obra.id]" class="btn btn-info" role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button *ngIf="checkDelete(i)" class="btn btn-danger" (click)="openEliminar(obra.id)"
+                role="button">Eliminar</button>
+              <button *ngIf="!checkDelete(i)" class="btn btn-danger"
+                title="No se puede eliminar ya que pertenece a otro elemento" disabled>Eliminar</button>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron obras!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/obras/formobra" class="btn btn-info" role="button">Agregar obra</a>
+</div>

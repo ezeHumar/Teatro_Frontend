@@ -1,0 +1,77 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Espacios</h3>
+</div>
+
+<form (ngSubmit)="busqueda()">
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+    <input type="text" id="name" [(ngModel)]="nombreFiltro" name="name" placeholder="Nombre">&nbsp;
+
+    <label for="form-control">Capacidad:</label>
+
+    <input type="number" class="busqueda-numero" id="capacityMin" [(ngModel)]="capacidadMinFiltro" name="capacityMin"
+      placeholder="Min." min=0>&nbsp;
+
+    <input type="number" class="busqueda-numero" id="capacityMax" [(ngModel)]="capacidadMaxFiltro" name="capacityMax"
+      placeholder="Max." min=0>&nbsp;
+
+    <input type="text" id="city" [(ngModel)]="ciudadFiltro" name="city" placeholder="Ciudad">&nbsp;
+
+    <select name="condition" id="condition" [(ngModel)]="condicionFiltro">
+      <option hidden value="" selected> Condicion </option>
+      <option value="abierto/cerrado">Abierto/Cerrado</option>
+      <option value="abierto">Abierto</option>
+      <option value="cerrado">Cerrado</option>
+    </select>&nbsp;
+
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+
+  </div>
+</form>
+
+<br>
+<div *ngIf="espacios.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Ubicacion</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let espacio of espacios; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ espacio.nombre }}</td>
+        <td>{{ espacio.ubicacion.ciudad }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-primary" role="button" (click)="open(espacio)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/espacios/editar', espacio.id]" class="btn btn-info" role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button *ngIf="checkDelete(i)" class="btn btn-danger" (click)="openEliminar(espacio.id)"
+                role="button">Eliminar</button>
+              <button *ngIf="!checkDelete(i)" class="btn btn-danger"
+                title="No se puede eliminar ya que pertenece a otro elemento" disabled>Eliminar</button>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron espacios!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/espacios/formespacio" class="btn btn-info" role="button">Agregar espacio</a>
+</div>

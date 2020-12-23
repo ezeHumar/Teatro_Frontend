@@ -1,0 +1,82 @@
+<body>
+
+    <div *ngIf="this.submitError">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            {{submitError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="obra.nombre" formControlName="name" 
+            [ngClass]="{'is-invalid':form.get('name').touched && form.get('name').invalid}">
+            <div *ngIf="form.get('name').touched && form.get('name').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('name').errors.required">Se requiere un nombre</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Descripcion</label><br>
+            <textarea id="description" [(ngModel)]="obra.descripcion" formControlName="description" 
+            [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" rows="5" cols="135"></textarea>
+            <div *ngIf="form.get('description').touched && form.get('description').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('description').errors.required">Se requiere una descripción</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="time">Duracion</label>
+            <input type="number" class="form-control" id="time" [(ngModel)]="obra.duracion" formControlName="time" 
+            [ngClass]="{'is-invalid':form.get('time').touched && form.get('time').invalid}">
+            <div *ngIf="form.get('time').touched && form.get('time').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('time').errors.required">Se requiere indicar la duracion de la obra</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="artistasParticipantes">Artistas participantes:</label>
+            <ng-select formControlName="artistasSeleccionados" [items]="artistas" bindLabel="nombre"
+                placeholder="Seleccionar artistas" appendTo="body" multiple="true"
+                [(ngModel)]="obra.artistaParticipante" [ngClass]="{'is-invalid':form.get('artistasSeleccionados').touched && form.get('artistasSeleccionados').invalid}">
+
+                <!-- Esto de abajo es para uqe se muestre el nombre y apellido de los artistas en la pagina
+            https://stackoverflow.com/questions/51420271/angular-5-ng-select-how-to-add-two-values-to-bindlabel -->
+
+                <ng-template ng-label-tmp let-item="item">
+                    <span>{{ item.nombre + ' ' + item.apellido }}</span>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                    <span>{{ item.nombre + ' ' + item.apellido }}</span>
+                </ng-template>
+
+            </ng-select>
+
+            <div *ngIf="form.get('artistasSeleccionados').touched && form.get('artistasSeleccionados').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('artistasSeleccionados').errors.required">Se requiere seleccionar al menos un artista</div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tags:</label>
+            <ng-select formControlName="tagsSeleccionados" [items]="tags" bindLabel="tag" placeholder="Seleccionar tags"
+                appendTo="body" multiple="true" [(ngModel)]="obra.tags" [ngClass]="{'is-invalid':form.get('tagsSeleccionados').touched && form.get('tagsSeleccionados').invalid}">
+            </ng-select>
+            <div *ngIf="form.get('tagsSeleccionados').touched && form.get('tagsSeleccionados').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('tagsSeleccionados').errors.required">Se requiere seleccionar una obra</div>
+            </div>
+        </div>
+
+        <label>Selecionar foto/s del artista:</label>
+        <input type="file" formControlName="file" (change)="fileEvent($event)" multiple><br>
+
+
+        <button type="submit" class="btn btn-info" [disabled]="!form.valid">Agregar</button>
+    </form>
+
+
+</body>

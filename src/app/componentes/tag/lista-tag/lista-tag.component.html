@@ -1,0 +1,49 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Tags</h3>
+  <!-- <app-tag></app-tag> -->
+</div>
+
+<div *ngIf="tags.length > 0;else mensaje_lista_vacia">
+<div *ngIf="this.submitError && this.submitError!='[object Object]'">
+  <br>
+  <div class="alert alert-danger" role="alert">
+    {{submitError}}
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tag</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let tag of tags; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ tag.tag }}</td>
+      <td>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="Third group">
+            <button [routerLink]="['/tags/editar', tag.id]" class="btn btn-info" role="button">Editar</button>
+          </div>
+          <div  class="btn-group mr-2" role="group" aria-label="Third group">
+            <button *ngIf="checkDelete(i)" class="btn btn-danger" (click)="openEliminar(tag.id)" role="button">Eliminar</button>
+            <button *ngIf="!checkDelete(i)" class="btn btn-danger" title="No se puede eliminar ya que pertenece a otro elemento" disabled>Eliminar</button>
+          </div>
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron tags!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/tags/formtag" class="btn btn-info" role="button">Agregar tag</a>
+</div>

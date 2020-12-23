@@ -1,0 +1,101 @@
+<body>
+
+    <div *ngIf="this.submitError">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            {{submitError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <div class="form-group">
+            <label for="title">Titulo</label>
+            <input type="Text" class="form-control" id="title" [(ngModel)]="edicion.titulo"
+                formControlName="title"
+                [ngClass]="{'is-invalid':form.get('title').touched && form.get('title').invalid}">
+            <div *ngIf="form.get('title').touched && form.get('title').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('title').errors.required">Se requiere un título</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripcion</label>
+            <textarea class="form-control" id="description" [(ngModel)]="edicion.descripcion"
+                formControlName="description"
+                [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" rows="5" cols="60"></textarea>
+            <div *ngIf="form.get('description').touched && form.get('description').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('description').errors.required">Se requiere una descripción</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="dateStart">Fecha de inicio</label>
+            <input type="date" class="form-control" id="dateStart" placeholder="aaaa-mm-dd"
+                [(ngModel)]="edicion.fechaInicio" formControlName="dateStart"
+                [ngClass]="{'is-invalid':form.get('dateStart').touched && form.get('dateStart').invalid}" [max]="edicion.fechaFin">
+            <div *ngIf="form.get('dateStart').touched && form.get('dateStart').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('dateStart').errors.required">Se requiere una fecha de inicio</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="timeStart">Hora de inicio</label>
+            <input type="time" class="form-control" id="timeStart" placeholder="hh:mm"
+                [(ngModel)]="edicion.horaInicio" formControlName="timeStart"
+                [ngClass]="{'is-invalid':form.get('timeStart').touched && form.get('timeStart').invalid}">
+            <div *ngIf="form.get('timeStart').touched && form.get('timeStart').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('timeStart').errors.required">Se requiere una hora de inicio</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="dateEnd">Fecha de fin</label>
+            <input type="date" class="form-control" id="dateEnd" [(ngModel)]="edicion.fechaFin"
+                formControlName="dateEnd" [ngClass]="{'is-invalid':form.get('dateEnd').touched && form.get('dateEnd').invalid}" [min]="edicion.fechaInicio">
+                <div *ngIf="form.get('dateEnd').touched && form.get('dateEnd').invalid" class="invalid-feedback">
+                    <div *ngIf="form.get('dateEnd').errors.required">Se requiere una fecha de finalización</div>
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label for="timeEnd">Hora de fin</label>
+            <input type="time" class="form-control" id="timeEnd" placeholder="hh:mm"
+                [(ngModel)]="edicion.horaFin" formControlName="timeEnd"
+                [ngClass]="{'is-invalid':form.get('timeEnd').touched && form.get('timeEnd').invalid}">
+                <div *ngIf="form.get('timeEnd').touched && form.get('timeEnd').invalid" class="invalid-feedback">
+                    <div *ngIf="form.get('timeEnd').errors.required">Se requiere una hora de finalización</div>
+                </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="actividades">Actividades</label>
+            <ng-select formControlName="actividadesSeleccionadas" [items]="actividades" bindLabel="obra.nombre"
+                placeholder="Seleccionar actividades" appendTo="body" multiple="true" [(ngModel)]="edicion.actividades"
+                [ngClass]="{'is-invalid':form.get('actividadesSeleccionadas').touched && form.get('actividadesSeleccionadas').invalid}">
+
+                <!-- Esto de abajo es para uqe se muestre el nombre y apellido de los artistas en la pagina
+                    https://stackoverflow.com/questions/51420271/angular-5-ng-select-how-to-add-two-values-to-bindlabel -->
+
+                <ng-template ng-label-tmp let-item="item">
+                    <span>{{ item.obra.nombre + ' (' + item.fecha + ' ' + item.hora }}</span>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                    <span>{{ item.obra.nombre + ' (' + item.fecha + ' ' + item.hora + ')'}}</span>
+                </ng-template>
+
+            </ng-select>
+            <div *ngIf="form.get('actividadesSeleccionadas').touched && form.get('actividadesSeleccionadas').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('actividadesSeleccionadas').errors.required">Se requiere al menos una actividad</div>
+            </div>
+
+        </div>
+
+        <label>Selecionar foto/s de la edicion</label>
+        <input type="file" formControlName="file" (change)="fileEvent($event)" multiple><br>
+
+        <button type="submit" class="btn btn-info" [disabled]="!form.valid">Agregar</button>
+    </form>
+
+</body>

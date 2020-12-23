@@ -1,0 +1,63 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Participantes</h3>
+</div>
+
+<form (ngSubmit)="busqueda()">
+
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+
+    <input type="text" id="name" [(ngModel)]="nombreFiltro" name="name" placeholder="Nombre">&nbsp;
+
+    <input type="text" id="lastName" [(ngModel)]="apellidoFiltro" name="lastName" placeholder="Apellido">&nbsp;
+
+    <input type="text" id="email" [(ngModel)]="emailFiltro" name="email" placeholder="Email">&nbsp;
+
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+  </div>
+</form>
+
+<br>
+<div *ngIf="participantes.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let participante of participantes; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ participante.nombre }}</td>
+        <td>{{ participante.apellido }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-primary" role="button" (click)="open(participante)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/participantes/editar', participante.id]" class="btn btn-info"
+                role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-danger" (click)="openEliminar(participante.id)" role="button">Eliminar</button>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron participantes!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/participantes/formparticipante" class="btn btn-info" role="button">Agregar participante</a>
+</div>

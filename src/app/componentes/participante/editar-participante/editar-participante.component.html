@@ -1,0 +1,64 @@
+<body>
+
+    <div *ngIf="this.submitError">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            {{submitError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="participante.nombre" formControlName="name"
+                [ngClass]="{'is-invalid':form.get('name').touched && form.get('name').invalid}">
+            <div *ngIf="form.get('name').touched && form.get('name').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('name').errors.required">Se requiere un nombre</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="lname">Apellido</label>
+            <input type="text" class="form-control" id="lname" [(ngModel)]="participante.apellido" formControlName="lname"
+                [ngClass]="{'is-invalid':form.get('lname').touched && form.get('lname').invalid}">
+            <div *ngIf="form.get('lname').touched && form.get('lname').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('lname').errors.required">Se requiere un apellido</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="participante.email" formControlName="email"
+                [ngClass]="{'is-invalid':form.get('email').touched && form.get('email').invalid}">
+            <div *ngIf="form.get('email').touched && form.get('email').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('email').errors.required">Se requiere un e-mail</div>
+                <div *ngIf="form.get('email').errors.email">La direccion de e-mail debe ser válida</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" class="form-control" id="password" [(ngModel)]="participante.contrasenia" formControlName="password"
+                [ngClass]="{'is-invalid':form.get('password').touched && form.get('password').invalid}">
+            <div *ngIf="form.get('password').touched && form.get('password').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('password').errors.required">Se requiere una contraseña</div>
+                <div *ngIf="form.get('password').errors.minlength">La contraseña debe tener al menos 4 caracteres</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthdate">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="birthdate" placeholder="aaaa-mm-dd"
+                [(ngModel)]="participante.fechaNacimiento" formControlName="birthdate"
+                [ngClass]="{'is-invalid':form.get('birthdate').touched && form.get('birthdate').invalid}" [max]="fechaHoy">
+            <div *ngIf="form.get('birthdate').touched && form.get('birthdate').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('birthdate').errors.required">Se requiere una fecha de nacimiento</div>
+            </div>
+        </div>
+
+    <button type="submit" class="btn btn-info" [disabled]="!form.valid">Modificar</button>
+</form>
+</body>

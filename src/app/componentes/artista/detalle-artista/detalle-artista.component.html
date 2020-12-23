@@ -1,0 +1,24 @@
+<app-modal>
+    <label><b>Nombre</b></label>
+    <h6>{{ a.nombre }}</h6>
+
+    <label><b>Apellido</b></label>
+    <h6>{{ a.apellido }}</h6>
+
+    <label><b>Fecha de nacimiento </b></label>
+    <h6>{{ a.fechaNacimiento }}</h6>
+
+    <label><b>Apodo</b></label>
+    <h6>{{ a.apodo }}</h6>
+
+    <label *ngIf="a.nombreFotos.length > 0"><b>Imagenes</b></label>
+    <div class="row">
+        <ng-container *ngFor="let i of a.nombreFotos">
+            <div class="col-md-2">
+                <a [href]="url+i" target="_blank">
+                    <img [src]="url+i" class="img-responsive">
+                </a>
+            </div>
+        </ng-container>
+    </div>
+</app-modal>

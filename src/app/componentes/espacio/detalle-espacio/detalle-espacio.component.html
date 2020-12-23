@@ -1,0 +1,34 @@
+<app-modal>
+    <label><b>Nombre</b></label>
+    <h6>{{ e.nombre }}</h6>
+
+    <label><b>Descripcion</b></label>
+    <h6>{{ e.descripcion }}</h6>
+
+    <label><b>Provincia</b></label>
+    <h6>{{ e.ubicacion.provincia }}</h6>
+
+    <label><b>Ciudad</b></label>
+    <h6>{{ e.ubicacion.ciudad }}</h6>
+
+    <label><b>Calle</b></label>
+    <h6>{{ e.ubicacion.calle }}</h6>
+
+    <label><b>Numero</b></label>
+    <h6>{{ e.ubicacion.numero }}</h6>
+
+    <label><b>Mapa</b></label>
+    <google-map [center]="center" width="100%">
+        <map-marker [position]="position">
+        </map-marker>
+    </google-map>
+
+    <label><b>Capacidad</b></label>
+    <h6>{{ e.capacidad }}</h6>
+
+
+    <label><b>Estado</b></label>
+    <h6 *ngIf="e.abierto">Abierto</h6>
+    <h6 *ngIf="!e.abierto">Cerrado</h6>
+
+</app-modal>

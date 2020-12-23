@@ -1,0 +1,16 @@
+
+  <!-- Sidebar -->
+  <div *ngIf="isLogged()" class="sidenav">
+    <a routerLink="/usuarios" class="list-group-item list-group-item-action bg-light">Usuarios</a>
+    <a routerLink="/participantes" class="list-group-item list-group-item-action bg-light">Participantes</a>
+    <a routerLink="/actividades" class="list-group-item list-group-item-action bg-light">Actividades</a>
+    <a routerLink="/obras" class="list-group-item list-group-item-action bg-light">Obras</a>
+    <a routerLink="/espacios" class="list-group-item list-group-item-action bg-light">Espacios</a>
+    <a routerLink="/artistas" class="list-group-item list-group-item-action bg-light">Artistas</a>
+    <a routerLink="/ediciones" class="list-group-item list-group-item-action bg-light">Ediciones</a>
+    <a routerLink="/tags" class="list-group-item list-group-item-action bg-light">Tags</a>
+  </div>
+
+  <div [ngClass]="{'main':isLogged()}">
+    <router-outlet></router-outlet>
+  </div>

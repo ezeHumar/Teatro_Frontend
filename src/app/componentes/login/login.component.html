@@ -1,0 +1,33 @@
+<body>
+
+    <!-- <form (ngSubmit)="login()" #usuarioForm="ngForm">
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="usuario.email" required [(ngModel)]="usuario.email" name="email">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" class="form-control" id="usuario.contrasenia" required [(ngModel)]="usuario.contrasenia" name="password">
+    </div>
+
+
+    <button type="submit" class="btn btn-info" [disabled]="!usuarioForm.form.valid">Iniciar Sesion</button>
+</form> -->
+
+<body class="text-center">
+    <form class="form-signin" (ngSubmit)="login()" #logInForm="ngForm">
+      <h1 class="h3 mb-3 font-weight-normal">Por favor inicie sesion</h1>
+      <div *ngIf="this.error" class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+      <!-- <label for="email">Email</label> -->
+      <input type="email" class="form-control" id="usuario.email" required [(ngModel)]="usuario.email" name="email" placeholder="Email">
+      <!-- <label for="password">Contraseña</label> -->
+      <input type="password" class="form-control" id="usuario.contrasenia" required [(ngModel)]="usuario.contrasenia" name="password" placeholder="Contraseña">
+      <button class="btn btn-lg btn-primary btn-block" [disabled]="!logInForm.form.valid" type="submit">Iniciar sesion</button>
+    </form>
+  </body>
+
+</body>

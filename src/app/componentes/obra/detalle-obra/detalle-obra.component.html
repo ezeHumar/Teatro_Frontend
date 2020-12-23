@@ -1,0 +1,40 @@
+<app-modal>
+  <label><b>Nombre</b></label>
+  <h6>{{ o.nombre }}</h6>
+
+  <label><b>Descripcion</b></label>
+  <h6>{{ o.descripcion }}</h6>
+
+  <label><b>Duracion</b></label>
+  <h6>{{ o.duracion }}</h6>
+
+  <label><b>Entradas entregadas</b></label>
+  <h6>{{ o.entradasEntregadas }}</h6>
+
+  <label><b>Artistas</b></label>
+  <ul>
+    <li *ngFor="let artista of o.artistaParticipante">
+      {{ artista.nombre }}
+      {{ artista.apellido }}
+    </li>
+  </ul>
+
+  <label><b>Tags</b></label>
+  <ul>
+    <li *ngFor="let tag of o.tags">
+      {{ tag.tag }}
+    </li>
+  </ul>
+
+  <label *ngIf="o.nombreFotos.length > 0"><b>Imagenes</b></label>
+    <div class="row">
+        <ng-container *ngFor="let i of o.nombreFotos">
+            <div class="col-md-2">
+                <a [href]="url+i" target="_blank">
+                    <img [src]="url+i" class="img-responsive">
+                </a>
+            </div>
+        </ng-container>
+    </div>
+
+</app-modal>

@@ -1,0 +1,37 @@
+<app-modal>
+  <label><b>Titulo</b></label>
+  <h6>{{ e.titulo }}</h6>
+
+  <label><b>Descripcion</b></label>
+  <h6>{{ e.descripcion }}</h6>
+
+  <label><b>Fecha de inicio</b></label>
+  <h6>{{ e.fechaInicio }}</h6>
+
+  <label><b>Hora de inicio</b></label>
+  <h6>{{ e.horaInicio }}</h6>
+
+  <label><b>Fecha de fin</b></label>
+  <h6>{{ e.fechaFin }}</h6>
+
+  <label><b>Hora de fin</b></label>
+  <h6>{{ e.horaFin }}</h6>
+
+  <label><b>Actividades</b></label>
+  <ul>
+    <li *ngFor="let actividad of e.actividades">
+      {{ actividad.obra.nombre}}
+    </li>
+  </ul>
+
+  <label *ngIf="e.nombreFotos.length > 0"><b>Imagenes</b></label>
+    <div class="row">
+        <ng-container *ngFor="let i of e.nombreFotos">
+            <div class="col-md-2">
+                <a [href]="url+i" target="_blank">
+                    <img [src]="url+i" class="img-responsive">
+                </a>
+            </div>
+        </ng-container>
+    </div>
+</app-modal>

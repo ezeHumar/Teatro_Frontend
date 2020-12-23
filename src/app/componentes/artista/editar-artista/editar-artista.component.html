@@ -1,0 +1,75 @@
+<body>
+
+    <div *ngIf="this.submitError">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            {{submitError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="artista.nombre" formControlName="name"
+                [ngClass]="{'is-invalid':form.get('name').touched && form.get('name').invalid}">
+            <div *ngIf="form.get('name').touched && form.get('name').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('name').errors.required">Se requiere un nombre</div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="lname">Apellido</label>
+            <input type="text" class="form-control" id="lname" [(ngModel)]="artista.apellido" formControlName="lname"
+                [ngClass]="{'is-invalid':form.get('lname').touched && form.get('lname').invalid}">
+            <div *ngIf="form.get('lname').touched && form.get('lname').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('lname').errors.required">Se requiere un apellido</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthdate">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="birthdate" placeholder="aaaa-mm-dd"
+                [(ngModel)]="artista.fechaNacimiento" formControlName="birthdate"
+                [ngClass]="{'is-invalid':form.get('birthdate').touched && form.get('birthdate').invalid}" [max]="fechaHoy">
+            <div *ngIf="form.get('birthdate').touched && form.get('birthdate').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('birthdate').errors.required">Se requiere una fecha de nacimiento</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="nickname">Apodo</label>
+            <input type="text" class="form-control" id="nickname" [(ngModel)]="artista.apodo"
+                formControlName="nickname"
+                [ngClass]="{'is-invalid':form.get('nickname').touched && form.get('nickname').invalid}">
+            <div *ngIf="form.get('nickname').touched && form.get('nickname').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('nickname').errors.required">Se requiere un apodo</div>
+            </div>
+        </div>
+
+        <label>Imagenes</label>
+
+        <div class="row">
+            <ng-container *ngFor="let i of artista.nombreFotos">
+                <div class="col-md-2">
+                    <div class="img-wraps">
+                        <!-- https://www.scoopism.com/bootstrap/how-to-create-a-delete-button-on-the-image/ -->
+                        <span (click)="borrar(i)" class="closes" title="Delete">&times;</span>
+                        <a [href]="url+i" target="_blank">
+                            <img [src]="url+i" class="img-responsive">
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+
+        <br>
+
+        <label>Selecionar foto/s del artista:</label>
+        <input type="file" formControlName="file" (change)="fileEvent($event)" multiple><br>
+
+        <button type="submit" class="btn btn-info" [disabled]="!form.valid">Modificar</button>
+    </form>
+</body>

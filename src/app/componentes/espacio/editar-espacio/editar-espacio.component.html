@@ -1,0 +1,94 @@
+<body>
+
+    <div *ngIf="this.submitError">
+        <br>
+        <div class="alert alert-danger" role="alert">
+            {{submitError}}
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="espacio.nombre" formControlName="name"
+                [ngClass]="{'is-invalid':form.get('name').touched && form.get('name').invalid}">
+            <div *ngIf="form.get('name').touched && form.get('name').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('name').errors.required">Se requiere un nombre</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Descripcion</label><br>
+            <textarea id="description" [(ngModel)]="espacio.descripcion" formControlName="description"
+                [ngClass]="{'is-invalid':form.get('description').touched && form.get('description').invalid}" rows="5" cols="135"></textarea>
+            <div *ngIf="form.get('description').touched && form.get('description').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('description').errors.required">Se requiere una descripción</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="province">Provincia</label>
+            <input type="text" class="form-control" id="province" [(ngModel)]="espacio.ubicacion.provincia"
+                formControlName="province"
+                [ngClass]="{'is-invalid':form.get('province').touched && form.get('province').invalid}">
+            <div *ngIf="form.get('province').touched && form.get('province').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('province').errors.required">Se requiere indicar la provinica</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="city">Ciudad</label>
+            <input type="text" class="form-control" id="city" [(ngModel)]="espacio.ubicacion.ciudad" formControlName="city"
+                [ngClass]="{'is-invalid':form.get('city').touched && form.get('city').invalid}">
+            <div *ngIf="form.get('city').touched && form.get('city').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('city').errors.required">Se requiere indicar la ciudad</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="street">Calle</label>
+            <input type="text" class="form-control" id="street" [(ngModel)]="espacio.ubicacion.calle" formControlName="street"
+                [ngClass]="{'is-invalid':form.get('street').touched && form.get('street').invalid}">
+            <div *ngIf="form.get('street').touched && form.get('street').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('street').errors.required">Se requiere indicar la calle</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="number">Numero</label>
+            <input type="number" class="form-control" id="number" [(ngModel)]="espacio.ubicacion.numero"
+                formControlName="number"
+                [ngClass]="{'is-invalid':form.get('number').touched && form.get('number').invalid}">
+            <div *ngIf="form.get('number').touched && form.get('number').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('number').errors.required">Se requiere indicar el numero</div>
+            </div>
+        </div>
+
+        <label for="number">Mapa</label>
+        <google-map (mapClick)="click($event)" [center]="center">
+            <map-marker [position]="position">
+            </map-marker>
+        </google-map>
+
+        <br>
+
+        <div class="form-group">
+            <label for="capacity">Capacidad</label>
+            <input type="number" class="form-control" id="capacity" min="0" [(ngModel)]="espacio.capacidad"
+                formControlName="capacity"
+                [ngClass]="{'is-invalid':form.get('capacity').touched && form.get('capacity').invalid}">
+            <div *ngIf="form.get('capacity').touched && form.get('capacity').invalid" class="invalid-feedback">
+                <div *ngIf="form.get('capacity').errors.required">Se requiere indicar la capacidad</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><input type="checkbox" value="true" id="open" [(ngModel)]="espacio.abierto"
+                    formControlName="open">
+                Abierto</label>
+        </div>
+
+        <button type="submit" class="btn btn-info" [disabled]="!form.valid">Agregar</button>
+</form>
+</body>

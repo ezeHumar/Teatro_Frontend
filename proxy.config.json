@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+      "target": "http://java.linti.unlp.edu.ar",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    }
+  }

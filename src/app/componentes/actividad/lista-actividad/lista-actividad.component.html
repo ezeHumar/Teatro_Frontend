@@ -1,0 +1,99 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Actividades</h3>
+</div>
+
+
+<form (ngSubmit)="busqueda()">
+
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+
+    <ng-select name="edicionSeleccionada" [items]="ediciones" bindLabel="titulo" placeholder="Seleccionar edicion"
+      appendTo="body" [(ngModel)]="edicionSeleccionada">
+    </ng-select>&nbsp;
+
+    <ng-select name="obrasSeleccionadas" [items]="obras" bindLabel="nombre" placeholder="Seleccionar obra"
+      multiple="true" appendTo="body" [(ngModel)]="obrasSeleccionadas">
+    </ng-select>&nbsp;
+
+    <ng-select name="espaciosSeleccionados" [items]="espacios" bindLabel="nombre" placeholder="Seleccionar espacios"
+      multiple="true" appendTo="body" [(ngModel)]="espaciosSeleccionados">
+    </ng-select>&nbsp;
+
+  </div>
+
+  <br>
+
+  <div class="busqueda-wrapper">
+    <label>Fecha:</label>
+    <input type="text" class="busquedaFechaHora" id="dateMin" placeholder="Min." [(ngModel)]="fechaMin" name="dateMin"
+      onfocus="(this.type='date')" [max]="fechaMax">
+
+    <input type="text" class="busquedaFechaHora" id="dateMax" placeholder="Max." [(ngModel)]="fechaMax" name="dateMax"
+      onfocus="(this.type='date')" [min]="fechaMin">
+  </div>
+  <br>
+  <div class="busqueda-wrapper">
+    <label>Hora:</label>
+    <input type="text" class="busquedaFechaHora" id="timeMin" placeholder="Min." [(ngModel)]="horaMin" name="timeMin"
+      onfocus="(this.type='time')">
+
+    <input type="text" class="busquedaFechaHora" id="timeMax" placeholder="Max." [(ngModel)]="horaMax" name="timeMax"
+      onfocus="(this.type='time')">
+  </div>
+  <br>
+  <div>
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+  </div>
+</form>
+
+<br>
+<div *ngIf="actividades.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Obra</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let actividad of actividades; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ actividad.obra.nombre }}</td>
+        <td>{{ actividad.fecha }}</td>
+        <td>{{ actividad.hora }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-primary" role="button" (click)="open(actividad)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/actividades/editar', actividad.id]" class="btn btn-info"
+                role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button *ngIf="checkDelete(i)" class="btn btn-danger" (click)="openEliminar(actividad.id)"
+                role="button">Eliminar</button>
+              <button *ngIf="!checkDelete(i)" class="btn btn-danger"
+                title="No se puede eliminar ya que pertenece a otro elemento" disabled>Eliminar</button>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron actividades!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/actividades/formactividad" class="btn btn-info" role="button">Agregar actividad</a>
+</div>

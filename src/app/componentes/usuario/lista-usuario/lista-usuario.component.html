@@ -1,0 +1,63 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Usuarios</h3>
+  <!-- <app-usuarios></app-usuarios> -->
+</div>
+
+<form (ngSubmit)="busqueda()">
+
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+
+    <input type="text" id="name" [(ngModel)]="nombreFiltro" name="name" placeholder="Nombre">&nbsp;
+
+    <input type="text" id="lastName" [(ngModel)]="apellidoFiltro" name="lastName" placeholder="Apellido">&nbsp;
+
+    <input type="text" id="email" [(ngModel)]="emailFiltro" name="email" placeholder="Email">&nbsp;
+
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+  </div>
+</form>
+
+<br>
+<div *ngIf="usuarios.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-primary" role="button" (click)="open(usuario)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/usuarios/editar', usuario.id]" class="btn btn-info" role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button class="btn btn-danger" (click)="openEliminar(usuario.id)" role="button">Eliminar</button>
+            </div>
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron usuarios!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/usuarios/formusuario" class="btn btn-info" role="button">Agregar usuario</a>
+</div>

@@ -1,0 +1,19 @@
+<app-modal>
+    <label><b>Nombre</b></label>
+    <h6>{{ u.nombre }}</h6>
+
+    <label><b>Apellido</b></label>
+    <h6>{{ u.apellido }}</h6>
+
+    <label><b>Email</b></label>
+    <h6>{{ u.email }}</h6>
+
+    <label><b>Email</b></label>
+    <h6>{{ u.fechaNacimiento }}</h6>
+
+    <label><b>Rol</b></label>
+    <h6 *ngIf="u.esAdmin">Aministrador</h6>
+    <!-- <h6 *ngIf="!u.esAdmin">Operador</h6> -->
+    <h6 *ngIf="u.esOperador">Operador</h6>
+
+</app-modal>

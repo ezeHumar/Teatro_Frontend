@@ -1,0 +1,75 @@
+<div class="container">
+  <h3 class="font-weight-bold text-center"> Artistas </h3>
+</div>
+
+<form (ngSubmit)="busqueda()">
+
+  <label for="form-control">Busqueda</label>
+  <div class="busqueda-wrapper">
+
+    <input type="text" id="name" [(ngModel)]="nombreFiltro" name="name" placeholder="Nombre">&nbsp;
+
+    <input type="text" id="lastName" [(ngModel)]="apellidoFiltro" name="lastName" placeholder="Apellido">&nbsp;
+
+    <ng-select name="obrasSeleccionadas" [items]="obras" bindLabel="nombre" placeholder="Seleccionar obras"
+      multiple="true" appendTo="body" [(ngModel)]="obrasSeleccionadas">
+    </ng-select>&nbsp;
+
+    <ng-select name="tagsSeleccionados" [items]="tags" bindLabel="tag" placeholder="Seleccionar tags" multiple="true"
+      appendTo="body" [(ngModel)]="tagsSeleccionados">
+    </ng-select>&nbsp;
+
+    <input type="submit" value="Buscar">
+    <a class="btn" (click)="limpiarFiltro()" role="button">Limpiar</a>
+  </div>
+</form>
+
+<br>
+<div *ngIf="artistas.length > 0;else mensaje_lista_vacia">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Apodo</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let artista of artistas; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ artista.nombre }}</td>
+        <td>{{ artista.apellido }}</td>
+        <td>{{ artista.apodo }}</td>
+        <td>
+          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <!-- <a [routerLink]="['/artistas/detalle', artista.id]" class="btn btn-primary" role="button">Detalle</a> -->
+              <button class="btn btn-primary" role="button" (click)="open(artista)">Detalle</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button [routerLink]="['/artistas/editar', artista.id]" class="btn btn-info" role="button">Editar</button>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Third group">
+              <button *ngIf="checkDelete(i)" class="btn btn-danger" (click)="openEliminar(artista.id)"
+                role="button">Eliminar</button>
+              <button *ngIf="!checkDelete(i)" class="btn btn-danger"
+                title="No se puede eliminar ya que pertenece a otro elemento" disabled>Eliminar</button>
+            </div>
+
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #mensaje_lista_vacia>
+  <h4 *ngIf="listaCargada==true">No se encontraron artistas!</h4>
+</ng-template>
+
+<div>
+  <a routerLink="/artistas/formartista" class="btn btn-info" role="button">Agregar artista</a>
+</div>
